@@ -1,0 +1,164 @@
+import 'package:agriscan/pages/histor_page.dart';
+import 'package:agriscan/pages/profile_Page.dart';
+import 'package:flutter/material.dart';
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _currentIndex = 0;
+
+  // Liste des pages correspondant aux onglets
+  final List<Widget> _pages = const [
+    HomeContentPage(), // Page d'accueil avec boutons
+    HistoryPage(), // Page historique
+    ProfilePage(), // Page profil
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _pages[_currentIndex], // Affiche la page active
+
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        backgroundColor: const Color(0xFF2F4F2F),
+        selectedItemColor: Colors.greenAccent,
+        unselectedItemColor: Colors.white,
+        onTap: (index) {
+          setState(() => _currentIndex = index);
+        },
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Accueil'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.access_time),
+            label: 'Historique',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
+        ],
+      ),
+    );
+  }
+}
+
+// Widget séparé pour le contenu de la page d'accueil
+class HomeContentPage extends StatelessWidget {
+  const HomeContentPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/background.jpg"),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 40),
+
+              // TITRE
+              const Text(
+                "Détection Intelligentes\nDes Maladies Des Cultures",
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              // SOUS-TITRE
+              const Text(
+                "Analyser Et Diagnostiquez Vos Plantes\nA Partir D’une Photo",
+                style: TextStyle(fontSize: 14, color: Colors.black87),
+              ),
+
+              const Spacer(),
+
+              // BOUTONS
+              _actionButton(
+                icon: Icons.camera_alt,
+                text: "Prendre Une Photo",
+                color: Colors.white70,
+                onTap: () {},
+              ),
+
+              const SizedBox(height: 15),
+
+              _actionButton(
+                text: "Ou Importer Une Image",
+                color: Colors.white70,
+                onTap: () {},
+              ),
+
+              const SizedBox(height: 15),
+
+              _actionButton(
+                text:
+                    "Consulter Nos Stocks Des Plantes,\nMaladies Et Solutions Possibles",
+                color: Colors.white60,
+                onTap: () {},
+              ),
+
+              const SizedBox(height: 30),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // WIDGET BOUTON
+  Widget _actionButton({
+    IconData? icon,
+    required String text,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(14),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (icon != null) ...[
+              Icon(icon, color: Colors.black),
+              const SizedBox(width: 10),
+            ],
+            Expanded(
+              child: Text(
+                text,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
